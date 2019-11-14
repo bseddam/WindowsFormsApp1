@@ -374,6 +374,10 @@ and p.TaxesPaymentID=8) end  borc
             {
                 taxestype = "14";
             }
+            else if (taxestype == "20001100")
+            {
+                taxestype = "15";
+            }
 
 
 
@@ -562,6 +566,7 @@ values (@TaxpayerID,@TaxesPaymentID,@Amount,@PaymentDocument,@NowTime,@Operation
                 cmd.Parameters.Add(new SqlParameter("TaxesPaymentName", "hopodenis"));
                 cmd.Parameters.Add(new SqlParameter("Qebz", receiptNumber));
                 cmd.ExecuteNonQuery();
+                //20001100
             }
             baglan.Close();
             //}
