@@ -1,4 +1,9 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
@@ -11,7 +16,6 @@ namespace WindowsFormsApp1
             // TODO: Add constructor logic here
             //
         }
-
         public void hesab08_11emlaktorpaq(string verginov, string TaxpayerID, string vaxt08ve11, string year)
         {
             SqlConnection baglan = klas.baglan();

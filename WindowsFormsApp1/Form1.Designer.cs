@@ -33,14 +33,17 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btngoster = new System.Windows.Forms.Button();
             this.btnbazayagonder = new System.Windows.Forms.Button();
+            this.btnhesabla = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btngonder
             // 
-            this.btngonder.Location = new System.Drawing.Point(44, 402);
+            this.btngonder.Location = new System.Drawing.Point(115, 281);
             this.btngonder.Name = "btngonder";
-            this.btngonder.Size = new System.Drawing.Size(182, 23);
+            this.btngonder.Size = new System.Drawing.Size(163, 23);
             this.btngonder.TabIndex = 0;
             this.btngonder.Text = "kecmeyenleri bazaya gonder";
             this.btngonder.UseVisualStyleBackColor = true;
@@ -49,7 +52,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(368, 402);
+            this.label1.Location = new System.Drawing.Point(385, 286);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 1;
@@ -83,11 +86,37 @@
             this.btnbazayagonder.UseVisualStyleBackColor = true;
             this.btnbazayagonder.Click += new System.EventHandler(this.btnbazayagonder_Click);
             // 
+            // btnhesabla
+            // 
+            this.btnhesabla.Location = new System.Drawing.Point(241, 358);
+            this.btnhesabla.Name = "btnhesabla";
+            this.btnhesabla.Size = new System.Drawing.Size(123, 23);
+            this.btnhesabla.TabIndex = 6;
+            this.btnhesabla.Text = "illər üzrə hesabla";
+            this.btnhesabla.UseVisualStyleBackColor = true;
+            this.btnhesabla.Click += new System.EventHandler(this.btnhesabla_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(27, 17);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(581, 23);
+            this.progressBar1.TabIndex = 7;
+            // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork_1);
+            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged_1);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(631, 450);
+            this.ClientSize = new System.Drawing.Size(631, 393);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.btnhesabla);
             this.Controls.Add(this.btnbazayagonder);
             this.Controls.Add(this.btngoster);
             this.Controls.Add(this.dataGridView1);
@@ -108,6 +137,9 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btngoster;
         private System.Windows.Forms.Button btnbazayagonder;
+        private System.Windows.Forms.Button btnhesabla;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
     }
 }
 

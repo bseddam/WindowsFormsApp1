@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -20,6 +21,14 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
+            int j = 0;
+            //for (int i = DateTime.Now.Year; i >= DateTime.Now.Year-5; i--)
+            //{
+            //    cmbiller.Items.Insert(j, i);
+            //    j++;
+            //}
+            
+           
         }
         static DataTable dt = new DataTable();
         private void btngonder_Click(object sender, EventArgs e)
@@ -140,7 +149,85 @@ values (@Qebz,@YVOK,@NowTime,@Amount,@TaxesPaymentID,getdate())", baglan);
                 cmd.ExecuteNonQuery();
             }
            
-            label1.Text =   "ugurla gonderildi";
+            label1.Text = "ugurla gonderildi";
+        }
+
+
+     
+
+      
+
+     
+
+
+        private void btnhesabla_Click(object sender, EventArgs e)
+        {
+            progressBar1.Maximum = 725000;
+            progressBar1.Step = 1;
+            progressBar1.Value = 0;
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        private void backgroundWorker_DoWork_1(object sender, DoWorkEventArgs e)
+        {
+           
+            SqlConnection baglan = klas.baglan();
+            DataTable dtodeyiciler = klas.getdatatable(
+                @"select distinct t.TaxpayerID from Taxpayer t inner join 
+(
+   select TaxpayerID,RegistrDate from viewLivingProperty where ExitDate is null 
+   union select TaxpayerID,RegistrDate  from viewQLivingProperty  where ExitDate is null 
+   union  select TaxpayerID,RegistrDate  from viewWaterAirTransport where ExitDate is null
+   union select TaxpayerID,RegistrDate  from ViewLivingLand where ExitDate is null 
+   union select TaxpayerID,RegistrDate  from ViewQLivingLand where ExitDate is null 
+   union select TaxpayerID,RegistrDate from ViewVillageLand where ExitDate is null
+)
+ la on la.TaxpayerID=t.TaxpayerID left join Payments ps on t.TaxpayerID=ps.TaxpayerID
+where fordelete=1 and Individual_Legal=1 and year(la.RegistrDate)<=2019
+  and t.TaxpayerID not in (
+ select plk.TaxpayerID from 
+ (select distinct pfg.TaxpayerID,pfg.TaxesPaymentID  from Payments pfg inner join Taxpayer oo on oo.TaxpayerID=pfg.TaxpayerID 
+ where pfg.Operation=3 and pfg.NowTime=CONVERT(nvarchar(20),2019)+'-08-15 00:00:00.000' and t.municipalID=oo.municipalID) plk 
+ inner join 
+ (select distinct pfg.TaxpayerID,pfg.TaxesPaymentID  from Payments pfg inner join Taxpayer oo on oo.TaxpayerID=pfg.TaxpayerID 
+ where pfg.Operation=2 and pfg.NowTime=CONVERT(nvarchar(20),2019)+'-11-15 00:00:00.000' and t.municipalID=oo.municipalID ) kls 
+ on plk.TaxpayerID=kls.TaxpayerID and plk.TaxesPaymentID=kls.TaxesPaymentID)");
+         
+
+            for (int i = 0; i < dtodeyiciler.Rows.Count; i++)
+            {
+                Thread.Sleep(100);
+                backgroundWorker.ReportProgress(i);
+                SqlCommand cmd = new SqlCommand(@"
+ exec hesab08_11emlaktorpaq 1,@TaxpayerID,'08',@hesabatili
+ exec hesab08_11emlaktorpaq 1,@TaxpayerID,'11',@hesabatili
+ exec hesab08_11emlaktorpaq 2,@TaxpayerID,'08' ,@hesabatili
+ exec hesab08_11emlaktorpaq 2,@TaxpayerID,'11' ,@hesabatili", baglan);
+
+                cmd.Parameters.Add(new SqlParameter("TaxpayerID", dtodeyiciler.Rows[i]["TaxpayerID"]));
+                cmd.Parameters.Add(new SqlParameter("hesabatili",  2019));
+                cmd.CommandTimeout = 100000;
+                cmd.ExecuteNonQuery();
+               
+
+            }
+            e.Result = dtodeyiciler.Rows.Count;
+            label1.Text = "basa catdi hesablama";
+        }
+
+        private void backgroundWorker_ProgressChanged_1(object sender, ProgressChangedEventArgs e)
+        {
+            progressBar1.Value = e.ProgressPercentage;
+            label1.Text = e.ProgressPercentage.ToString();
+        }
+
+        private void backgroundWorker_RunWorkerCompleted_1(object sender, RunWorkerCompletedEventArgs e)
+        {
+            // TODO: do something with final calculation.
+            if(e.Error!=null)
+            {
+                label1.Text = e.Error.Message;
+            }
         }
     }
 }
