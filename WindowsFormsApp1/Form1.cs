@@ -171,7 +171,7 @@ values (@Qebz,@YVOK,@NowTime,@Amount,@TaxesPaymentID,getdate())", baglan);
         private void backgroundWorker_DoWork_1(object sender, DoWorkEventArgs e)
         {
            
-            SqlConnection baglan = klas.baglan();
+            //SqlConnection baglan = klas.baglan();
             DataTable dtodeyiciler = klas.getdatatable(
                 @"select distinct t.TaxpayerID from Taxpayer t inner join 
 (
@@ -191,25 +191,32 @@ where fordelete=1 and Individual_Legal=1 and year(la.RegistrDate)<=2019
  inner join 
  (select distinct pfg.TaxpayerID,pfg.TaxesPaymentID  from Payments pfg inner join Taxpayer oo on oo.TaxpayerID=pfg.TaxpayerID 
  where pfg.Operation=2 and pfg.NowTime=CONVERT(nvarchar(20),2019)+'-11-15 00:00:00.000' and t.municipalID=oo.municipalID ) kls 
- on plk.TaxpayerID=kls.TaxpayerID and plk.TaxesPaymentID=kls.TaxesPaymentID)");
-         
+ on plk.TaxpayerID=kls.TaxpayerID and plk.TaxesPaymentID=kls.TaxesPaymentID) order by  t.TaxpayerID ");
+            Hesablanmalar hesabla = new Hesablanmalar();
 
             for (int i = 0; i < dtodeyiciler.Rows.Count; i++)
             {
                 Thread.Sleep(100);
                 backgroundWorker.ReportProgress(i);
-                SqlCommand cmd = new SqlCommand(@"
- exec hesab08_11emlaktorpaq 1,@TaxpayerID,'08',@hesabatili
- exec hesab08_11emlaktorpaq 1,@TaxpayerID,'11',@hesabatili
- exec hesab08_11emlaktorpaq 2,@TaxpayerID,'08' ,@hesabatili
- exec hesab08_11emlaktorpaq 2,@TaxpayerID,'11' ,@hesabatili", baglan);
+            
+                string buil = klas.getdatacell(@"select year(getdate())");
+                hesabla.hesab08_11emlaktorpaq("1", dtodeyiciler.Rows[i]["TaxpayerID"].ToString(), "08", buil);
+                hesabla.hesab08_11emlaktorpaq("1", dtodeyiciler.Rows[i]["TaxpayerID"].ToString(), "11", buil);
 
-                cmd.Parameters.Add(new SqlParameter("TaxpayerID", dtodeyiciler.Rows[i]["TaxpayerID"]));
-                cmd.Parameters.Add(new SqlParameter("hesabatili",  2019));
-                cmd.CommandTimeout = 100000;
-                cmd.ExecuteNonQuery();
-               
+          
 
+                hesabla.hesab08_11emlaktorpaq("2", dtodeyiciler.Rows[i]["TaxpayerID"].ToString(), "08", buil);
+                hesabla.hesab08_11emlaktorpaq("2", dtodeyiciler.Rows[i]["TaxpayerID"].ToString(), "11", buil);
+                //               SqlCommand cmd = new SqlCommand(@"
+                //exec hesab08_11emlaktorpaq 1,@TaxpayerID,'08',@hesabatili 
+                //exec hesab08_11emlaktorpaq 1,@TaxpayerID,'11',@hesabatili  
+                //exec hesab08_11emlaktorpaq 2,@TaxpayerID,'08' ,@hesabatili 
+                //exec hesab08_11emlaktorpaq 2,@TaxpayerID,'11' ,@hesabatili ", baglan);
+
+                //               cmd.Parameters.Add(new SqlParameter("TaxpayerID", dtodeyiciler.Rows[i]["TaxpayerID"]));
+                //               cmd.Parameters.Add(new SqlParameter("hesabatili",  2019));
+                //               cmd.CommandTimeout = 10000000;
+                //               cmd.ExecuteNonQuery();
             }
             e.Result = dtodeyiciler.Rows.Count;
             label1.Text = "basa catdi hesablama";
