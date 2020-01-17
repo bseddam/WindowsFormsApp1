@@ -147,6 +147,7 @@ values (@Qebz,@YVOK,@NowTime,@Amount,@TaxesPaymentID,getdate())", baglan);
                 cmd.Parameters.Add(new SqlParameter("Amount", dr["Amount"]));
                 cmd.Parameters.Add(new SqlParameter("TaxesPaymentID", dr["ServiceCode"]));
                 cmd.ExecuteNonQuery();
+                dt = new DataTable();
             }
            
             label1.Text = "ugurla gonderildi";
