@@ -1,0 +1,10 @@
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\obj\Debug\belediyyeodenis.csprojAssemblyReference.cache
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\obj\Debug\belediyyeodenis.csproj.GenerateResource.cache
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\obj\Debug\belediyyeodenis.csproj.CoreCompileInputs.cache
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\bsedd\Desktop\kecmeyen odeniwler\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
