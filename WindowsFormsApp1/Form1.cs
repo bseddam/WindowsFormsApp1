@@ -135,33 +135,26 @@ namespace WindowsFormsApp1
         private void btnbazayagonder_Click(object sender, EventArgs e)
         {
             SqlConnection baglan = klas.baglan();
-            bool yoxla = true;
+
             foreach (DataRow dr in dt.Rows)
             {
                 string qebznom = "";
-                if (yoxla == true)
+                string aa = dr["ReceiptNumber"].ToString();
+                qebznom = klas.getdatacell(@"select Qebz from HOPodenis where Qebz='" + dr["ReceiptNumber"] + "'");
+                if (qebznom == null || qebznom == "")
                 {
-                    qebznom = klas.getdatacell(@"select Qebz from HOPodenis where Qebz='" + dr["ReceiptNumber"] + "'");
-                    if (!(qebznom == null || qebznom == ""))
-                    {
-                        label1.Text = "tekrar melumat gonderile bilmez";
-                        return;
-                    }
-                    yoxla = false;
-                }
-
-                SqlCommand cmd = new SqlCommand(@"Insert into HOPodenis 
+                    SqlCommand cmd = new SqlCommand(@"Insert into HOPodenis 
 (Qebz,YVOK,NowTime,Amount,TaxesPaymentID,ImportDate) 
 values (@Qebz,@YVOK,@NowTime,@Amount,@TaxesPaymentID,getdate())", baglan);
 
-                cmd.Parameters.Add(new SqlParameter("Qebz", dr["ReceiptNumber"]));
-                cmd.Parameters.Add(new SqlParameter("YVOK", dr["AbonCode"]));
-                cmd.Parameters.Add(new SqlParameter("NowTime", dr["PaymentDate"]));
-                cmd.Parameters.Add(new SqlParameter("Amount", dr["Amount"]));
-                cmd.Parameters.Add(new SqlParameter("TaxesPaymentID", dr["ServiceCode"]));
-                cmd.ExecuteNonQuery();
-                dt = new DataTable();
-
+                    cmd.Parameters.Add(new SqlParameter("Qebz", dr["ReceiptNumber"]));
+                    cmd.Parameters.Add(new SqlParameter("YVOK", dr["AbonCode"]));
+                    cmd.Parameters.Add(new SqlParameter("NowTime", dr["PaymentDate"]));
+                    cmd.Parameters.Add(new SqlParameter("Amount", dr["Amount"]));
+                    cmd.Parameters.Add(new SqlParameter("TaxesPaymentID", dr["ServiceCode"]));
+                    cmd.ExecuteNonQuery();
+                    dt = new DataTable();
+                }
             }
 
             label1.Text = "ugurla gonderildi";
